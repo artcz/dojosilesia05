@@ -1,7 +1,50 @@
-from game import Game
+from game import (
+    Game,
+    is_on_map,
+    place_ship,
+    place_all_the_ships,
+    YELLOW,
+    AVAILABLE_SHIP_LENGTHS,
+    NORTH, EAST, WEST, SOUTH,
+)
+
 from base import Drawer
 
 from unittest.mock import Mock, call
+import pytest
+
+
+def test_place_ship_returns_a_valid_ship():
+    ship_size = 3
+    direction, locations = place_ship(ship_size)
+    assert direction in {NORTH, EAST, WEST, SOUTH}
+
+    # check if ship is a single unit
+    for l1, l2 in zip(locations, locations[1:]):
+        if direction in {NORTH, SOUTH}:
+            assert abs(l1[0] - l2[0]) == 1
+            assert l1[1] == l2[1]
+
+        if direction in {EAST, WEST}:
+            assert l1[0] == l2[0]
+            assert abs(l1[1] - l2[1]) == 1
+
+    for location in locations:
+        assert is_on_map(*location)
+
+
+@pytest.mark.parametrize("size,expected", [
+    (2, 2),
+    (3, 3),
+    (4, 4),
+])
+def test_place_ship_output(size, expected):
+    direction, locations = place_ship(size)
+    assert len(locations) == expected
+
+
+def test_place_all_the_ships():
+    print(place_all_the_ships())
 
 
 def get_game(*args, **kwargs):
@@ -25,8 +68,8 @@ def test_draw():
     # https://docs.python.org/3/library/unittest.mock.html
     game.draw.grid.assert_called_once_with()
     assert game.draw.text.call_args_list == [
-        call('CODING DOJO', 2, 2),
-        call('SILESIA TEAM PYKONIK', 2, 3, color=8),
+        call('CODING DOJO', 2, 2, color=YELLOW),
+        call('SILESIA TEAM PYKONIK', 2, 3, color=YELLOW),
     ]
 
     assert game.draw.image.call_args_list == [
