@@ -91,6 +91,8 @@ def place_all_the_ships():
 
 
 
+ships = place_all_the_ships()
+
 class Game(BaseGame):
 
     def __init__(self):
@@ -130,7 +132,6 @@ class Game(BaseGame):
         self.draw.image('hit', 8, 10)
         self.draw.image('cursor', mouse_x, mouse_y)
 
-        ships = place_all_the_ships()
 
         for ship in ships:
             for pos in ship:
