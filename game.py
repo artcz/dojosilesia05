@@ -1,5 +1,9 @@
 from base import BaseGame
 
+RED = 8
+ORANGE = 9
+YELLOW = 10
+
 
 class Game(BaseGame):
 
@@ -24,8 +28,8 @@ class Game(BaseGame):
 
         # colors are descripted on https://github.com/kitao/pyxel#color-palette
         # self.draw.text(str, x, y, [color])
-        self.draw.text('CODING DOJO', 2, 2)  # default white
-        self.draw.text('SILESIA', 2, 3, color=8)
+        self.draw.text('CODING DOJO', 2, 2, color=YELLOW)
+        self.draw.text('SILESIA TEAM PYKONIK', 2, 3, color=YELLOW)
 
         # self.draw.image(name, x, y)
         # name = ship | selected_ship | miss | hit | cursor

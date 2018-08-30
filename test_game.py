@@ -26,7 +26,7 @@ def test_draw():
     game.draw.grid.assert_called_once_with()
     assert game.draw.text.call_args_list == [
         call('CODING DOJO', 2, 2),
-        call('SILESIA', 2, 3, color=8),
+        call('SILESIA TEAM PYKONIK', 2, 3, color=8),
     ]
 
     assert game.draw.image.call_args_list == [
