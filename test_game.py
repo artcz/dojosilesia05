@@ -6,6 +6,7 @@ from game import (
     YELLOW,
     AVAILABLE_SHIP_LENGTHS,
     NORTH, EAST, WEST, SOUTH,
+    SHIP_SIZES,
 )
 
 from base import Drawer
@@ -44,7 +45,10 @@ def test_place_ship_output(size, expected):
 
 
 def test_place_all_the_ships():
-    print(place_all_the_ships())
+    ships = place_all_the_ships()
+    assert len(ships) == len(SHIP_SIZES)
+    for ship, ship_size in zip(ships, SHIP_SIZES):
+        assert len(ship) == ship_size
 
 
 def get_game(*args, **kwargs):

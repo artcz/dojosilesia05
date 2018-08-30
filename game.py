@@ -10,6 +10,7 @@ YELLOW = 10
 
 MAX_WIDTH, MAX_HEIGHT = 10, 10
 AVAILABLE_SHIP_LENGTHS = [2, 3, 4]
+SHIP_SIZES = [2, 2, 2, 3, 3, 4]
 
 
 class DojoException(Exception):
@@ -20,11 +21,24 @@ class NotOnMapException(DojoException):
     pass
 
 
+class Point:
+    # TODO make it namedtuple
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+
 class Ship:
 
-    def __init__(self, length):
+    def __init__(self, length, direction):
         self.length = length
-        self.positions = []
+        self.direction = direction
+        self.points = []
+
+    def __repr__(self):
+        return f'{self.length} {self.direction} {self.points}'
+
 
 
 NORTH = (-1, 0)
@@ -67,21 +81,18 @@ def place_ship(ship_size):
 
 def is_colliding(ship, board_state):
     for position in ship:
-        try:
-            if board_state.get(position, False):
-                return True
-        except TypeError:
-            import pdb; pdb.set_trace()
+        if board_state.get(position, False):
+            return True
     else:
         return False
 
 
+
 def place_all_the_ships():
-    sizes = [2, 2, 2, 3, 3, 4]
     i = 0
     ships = []
-    while i < len(sizes):
-        _, ship = place_ship(sizes[i])
+    while i < len(SHIP_SIZES):
+        _, ship = place_ship(SHIP_SIZES[i])
         if is_colliding(ship, board_state):
             continue
         else:
