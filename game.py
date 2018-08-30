@@ -13,40 +13,19 @@ AVAILABLE_SHIP_LENGTHS = [2, 3, 4]
 SHIP_SIZES = [2, 2, 2, 3, 3, 4]
 
 
-class DojoException(Exception):
-    pass
-
-
-class NotOnMapException(DojoException):
-    pass
-
-
-class Point:
-    # TODO make it namedtuple
-
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-
-class Ship:
-
-    def __init__(self, length, direction):
-        self.length = length
-        self.direction = direction
-        self.points = []
-
-    def __repr__(self):
-        return f'{self.length} {self.direction} {self.points}'
-
-
-
 NORTH = (-1, 0)
 EAST = (0, +1)
 WEST = (0, -1)
 SOUTH = (+1, 0)
 
 board_state = {}
+
+class DojoException(Exception):
+    pass
+
+
+class NotOnMapException(DojoException):
+    pass
 
 
 def is_on_map(x, y):
@@ -72,6 +51,13 @@ def place_ship(ship_size):
                     raise NotOnMapException()
 
                 locations.append((x, y))
+                """
+                TODO: uncomment
+                if direction in {NORTH, SOUTH}:
+                    board_state[(x, y+1)] = False
+                if direction in {EAST, WEST}:
+                    board_state[(x+1, y)] = False
+                """
             else:
                 return direction, locations
         except NotOnMapException:
@@ -134,7 +120,7 @@ class Game(BaseGame):
         # colors are descripted on https://github.com/kitao/pyxel#color-palette
         # self.draw.text(str, x, y, [color])
         self.draw.text('CODING DOJO', 2, 2, color=YELLOW)
-        self.draw.text('SILESIA TEAM PYKONIK', 2, 3, color=YELLOW)
+        self.draw.text('TEAM PYKONIK', 2, 3, color=YELLOW)
 
         # self.draw.image(name, x, y)
         # name = ship | selected_ship | miss | hit | cursor
@@ -143,6 +129,12 @@ class Game(BaseGame):
         self.draw.image('miss', 7, 10)
         self.draw.image('hit', 8, 10)
         self.draw.image('cursor', mouse_x, mouse_y)
+
+        ships = place_all_the_ships()
+
+        for ship in ships:
+            for pos in ship:
+                self.draw.image('ship', 13+pos[0], 5+pos[1])
 
 
 if __name__ == "__main__":

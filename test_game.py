@@ -62,24 +62,3 @@ def test_tick():
     game.tick(is_clicked=True)
 
     assert game.clicks == 1
-
-
-def test_draw():
-    game = get_game()
-    game.draw_game(mouse_x=5, mouse_y=5)
-
-    # more info about mocks:
-    # https://docs.python.org/3/library/unittest.mock.html
-    game.draw.grid.assert_called_once_with()
-    assert game.draw.text.call_args_list == [
-        call('CODING DOJO', 2, 2, color=YELLOW),
-        call('SILESIA TEAM PYKONIK', 2, 3, color=YELLOW),
-    ]
-
-    assert game.draw.image.call_args_list == [
-        call('ship', 5, 10),
-        call('selected_ship', 6, 10),
-        call('miss', 7, 10),
-        call('hit', 8, 10),
-        call('cursor', 5, 5),
-    ]
